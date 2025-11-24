@@ -3,7 +3,7 @@ import torch
 import time
 import utils
 from my_model import simple_NN
-
+import os
 import parameters
 
  
@@ -233,7 +233,6 @@ def run():
     
     PINN = PINN_Poisson()
     
-    print('Starting PINN Poisson...')
     poisson_sol, t, Loss_values = PINN.training(epochs, true_source, x_pde, z_pde, x_bc, z_bc, sol_bc, alpha, ux_num, uz_num, load = False, save = False, one_sol = False)
 
 
@@ -244,8 +243,9 @@ def run():
 
 
 
-    path = 'test_0/'#sig_1_alpha_1e-4/10Hz/Activation_function/'
-
+    path = 'Wavefield_decomposition/'#sig_1_alpha_1e-4/10Hz/Activation_function/'
+    os.makedirs(path, exist_ok=True)
+ 
     utils.Save(upx_PINN, path, 'upx_shape_'+str(shape[0])+'_alpha_'+str(alpha)+'_epochs_'+str(epochs)+'_256_10Hz_sig_1.bin', shape)
     utils.Save(upz_PINN, path, 'upz_shape_'+str(shape[0])+'_alpha_'+str(alpha)+'_epochs_'+str(epochs)+'_256_10Hz_sig_1.bin', shape)
 
@@ -256,8 +256,7 @@ def run():
 
     utils.Save(t, path, 'Time_'+str(shape[0])+'_alpha_'+str(alpha)+'_epochs_'+str(epochs)+'_256_10Hz_sig_1.bin',shape)
 
-    print('Test 0')
-    print('_______')
+  
     print('Files Saved: Homogeneous model, 10Hz, sigma = '+str(sigma)+' and alpha = '+str(alpha)+'')
 
 
